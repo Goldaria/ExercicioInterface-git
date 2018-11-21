@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using ExercicioInterface.Entities;
+using ExercicioInterface.Services;
 
 namespace ExercicioInterface
 {
@@ -10,20 +11,27 @@ namespace ExercicioInterface
         {
             Console.WriteLine("Enter contract data");
             Console.Write("Number: ");
-            int number = int.Parse(Console.ReadLine());
+            int contractNumber = int.Parse(Console.ReadLine());
 
             Console.Write("Date (dd/MM/yyyy): ");
-            DateTime date = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            DateTime contractDate = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
             Console.Write("Contract value: ");
-            double totalValue = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
+            double contractValue = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
 
             Console.Write("Enter number of installments: ");
-            int installmentsQte = int.Parse(Console.ReadLine());
+            int months = int.Parse(Console.ReadLine());
 
-            Contract contracts = new Contract(number, date, totalValue, installmentsQte);
+            Contract myContract = new Contract(contractNumber, contractDate, contractValue);
 
-            Console.WriteLine(contracts);
+            ContractService contractService = new ContractService(new PaypalService());
+            contractService.ProcessContract(myContract, months);
+
+            Console.WriteLine("Installments:");
+            foreach(Installment installment in myContract.Installments)
+            {
+                Console.WriteLine(installment);
+            }
 
             Console.ReadLine();
         }

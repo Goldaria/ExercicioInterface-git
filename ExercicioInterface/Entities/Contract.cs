@@ -11,35 +11,20 @@ namespace ExercicioInterface.Entities
     {
         public int number { get; set; }
         public DateTime date { get; set; }
-        public double totalValue { get; set; }
-        public int installmentsQte { get; set; }
-        public Installments[] installments { get; set; }
+        public double totalValue { get; set; }        
+        public List<Installment> Installments { get; set; }
 
-        public Contract(int number, DateTime date, double totalValue, int installmentsQte)
+        public Contract(int number, DateTime date, double totalValue)
         {
             this.number = number;
             this.date = date;
             this.totalValue = totalValue;
-            this.installmentsQte = installmentsQte;
+            Installments = new List<Installment>();
         }
 
-        public void installmentsValue()
+        public void addInstallment(Installment installment)
         {
-            double installmentsFracionate;
-
-            installmentsFracionate = totalValue / installmentsQte;
-
-            for (int i = 1; i <= installmentsQte; i++)
-            {
-                installmentsFracionate = (installmentsFracionate + (installmentsFracionate * 0.1)) * i;
-
-                installmentsFracionate = installmentsFracionate + (installmentsFracionate * 0.2);                
-            }
-        }
-
-        public override string ToString()
-        {
-            return base.ToString();
+            Installments.Add(installment);
         }
     }
 }
